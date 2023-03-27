@@ -27,8 +27,16 @@ app.get("/play/:game", (req, res) => {
     res.sendFile(rp("play.html"))
 })
 
+const rooms = new Map();
 io.on("connection", (socket) => {
     // Socket.io connection established
+    socket.on("joinGame", (data) => {
+        if (io.sockets.adapter.rooms.get(data.room) && io.sockets.adapter.rooms.get(data.room).size == 5) return;
+        socket.join(data.room);
+        rooms.set(data.user, data.room)
+        socket.emit("gameJoined", { started: io.sockets.adapter.rooms.get(data.room).size == 1 ? true : false })
+    })
+
 })
 
 const port = process.env.port;
