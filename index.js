@@ -16,7 +16,8 @@ app.use(express.static("public"))
 const rp = (p) => { return path.join(__dirname, "html/" + p) } // one liner lol
 
 app.get("/", (req, res) => {
-    res.send("This page is still in production. Please check back later.<br><a href='/play/someRandomGameIdThatYouCanTestWith'>Play</a>");
+    res.sendFile(rp("index.html"))
+    //res.send("This page is still in production. Please check back later.<br><a href='/play/someRandomGameIdThatYouCanTestWith'>Play</a>");
 })
 
 app.get("/play", (req, res) => {
