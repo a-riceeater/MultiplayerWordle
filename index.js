@@ -13,7 +13,7 @@ app.use(express.json());
 app.set("socketio", io);
 app.use(express.static("public"))
 
-const rp = (p) => { return path.join(__dirname, "html/" + p )}
+const rp = (p) => { return path.join(__dirname, "html/" + p )} // one liner lol
 
 app.get("/", (req, res) => {
     res.send("Hello, world!");
