@@ -20,6 +20,7 @@ socket.emit("joinGame", { user: "guest", room: room })
 
 socket.on("gameJoined", (data) => {
     setTimeout(() => {
+        document.getElementById("pc-status").innerText = "Connected..."
         if (!started) data.started ? document.getElementById("cs-dots-title").innerText = "Game starting" : document.getElementById("cs-dots-title").innerText = "Waiting for players..."
     }, 500);
 })
@@ -74,6 +75,13 @@ socket.on("correctWord", (data) => {
     }, 300)
 })
 
+socket.on("wordNotExist", (data) => {
+    const pcs = document.getElementById("pc-status");
+    pcs.innerText = "Word not in word list!"
+    pcs.style.opacity = 1;
+    setTimeout(() => pcs.style.opacity = 0, 1000)
+})
+
 socket.on("wordStatus", (data) => {
     console.log(data.result)
 
@@ -117,7 +125,8 @@ document.querySelectorAll('.keyboard-button').forEach(btn => {
             socket.emit("verifyWord", { user: "guest", word: word })
 
         } else if (letter == "del") {
-            currentIndex == 4 ? document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[4].innerText = "" : document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[currentIndex - 1].innerText = "";
+            document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[currentIndex].innerText = "";
+
             currentIndex === 0 ? currentIndex = 0 : currentIndex--;
         } else {
             document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[currentIndex].innerText = letter;
@@ -125,6 +134,43 @@ document.querySelectorAll('.keyboard-button').forEach(btn => {
             if (currentIndex != 4) currentIndex++;
         }
     })
+})
+
+document.addEventListener("keydown", (e) => {
+    if (e.key == "Backspace") {
+        e.preventDefault();
+        document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[currentIndex].innerText = "";
+
+        currentIndex === 0 ? currentIndex = 0 : currentIndex--;
+        return;
+    }
+
+    if (e.key == "Enter") {
+        e.preventDefault();
+        let word = '';
+        const words = document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")
+
+        for (let i = 0; i < words.length; i++) {
+            word += words[i].innerText;
+        }
+        console.log(word);
+        if (!word) return
+        if (word.length != 5) return;
+        socket.emit("verifyWord", { user: "guest", word: word })
+        return;
+    }
+
+    if (e.key == " " || e.key == "Space" || e.key == "Backspace" || e.altKey) return;
+
+    if (e.shiftKey || e.key == "Escape" || e.key == "Esc" || e.ctrlKey || e.key.includes("arrow")) return;
+
+    if (e.key.length > 1) return;
+
+    e.preventDefault();
+
+    document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[currentIndex].innerText = e.key;
+
+    if (currentIndex != 4) currentIndex++;
 })
 
 const animateCSS = (element, animation, prefix = "animate__") =>

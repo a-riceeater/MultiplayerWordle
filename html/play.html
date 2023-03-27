@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div id="connectingScreen">
+    <div id="connectingScreen" style="display: none">
         <h1><span id="cs-dots-title">Connecting</span><span id="cs-dots">.</span>
         </h1>
         <p style="color: gray;" id="cs-para">Waiting for server...</p>
@@ -21,6 +21,7 @@
         <h2 id="mainTitle">MultiplayerWordle</h2>
         <hr>
         <div id="playContainer">
+            <p id="pc-status">Connecting...</p>
             <div id="row1">
                 <div class="tile"></div>
                 <div class="tile"></div>
@@ -96,7 +97,7 @@
                     <button class="keyboard-button">l</button>
                 </div>
                 <div class="third-row">
-                    <button class="keyboard-button">Del</button>
+                    <button class="keyboard-button" style="width: 55px">Del</button>
                     <button class="keyboard-button">z</button>
                     <button class="keyboard-button">x</button>
                     <button class="keyboard-button">c</button>
