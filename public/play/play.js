@@ -8,7 +8,8 @@ document.querySelectorAll('.keyboard-button').forEach(btn => {
         if (letter == "enter") {
 
         } else if (letter == "del") {
-
+            document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[currentIndex - 1].innerText = "";
+            currentIndex === 0 ? currentIndex = 0 : currentIndex--;
         } else {
             document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[currentIndex].innerText = letter;
 
