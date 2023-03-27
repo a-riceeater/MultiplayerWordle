@@ -56,6 +56,10 @@ hr {
     vertical-align: middle;
 }
 
+.row {
+    --animate-duration: 0.8s;
+}
+
 br {
     display: block;
     content: "";
@@ -111,7 +115,7 @@ br {
     background-color: red;
 }
 
-@media only screen and (min-width: 1025px) {
+@media only screen and (max-width: 1025px) {
     .tile {
         height: 40px;
         width: 40px;

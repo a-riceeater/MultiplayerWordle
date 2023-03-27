@@ -92,7 +92,7 @@ io.on("connection", (socket) => {
 })
 
 const port = process.env.port;
-server.listen(1024, () => {
+server.listen(port, () => {
     console.log("\x1b[33mServer Running!")
     console.log("\x1b[31mThis is a development server, do not use this for hosting!\n")
     console.log(`\x1b[0mRunning on:\nhttp://localhost:${1024}`)

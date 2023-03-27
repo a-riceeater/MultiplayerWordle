@@ -139,7 +139,13 @@ document.querySelectorAll('.keyboard-button').forEach(btn => {
 document.addEventListener("keydown", (e) => {
     if (e.key == "Backspace") {
         e.preventDefault();
-        document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[currentIndex].innerText = "";
+
+        // i tried using currentIndex - 1 (and checking if four and stuff) but it wouldn't work right, so I had to do this 🤷‍♂️
+        if (currentIndex == 4) document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[4].innerText = "";
+        else if (currentIndex == 3) document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[3].innerText = "";
+        else if (currentIndex == 2) document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[2].innerText = "";
+        else if (currentIndex == 1) document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[1].innerText = "";
+        else if (currentIndex == 0) document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[0].innerText = "";
 
         currentIndex === 0 ? currentIndex = 0 : currentIndex--;
         return;
@@ -171,18 +177,18 @@ document.addEventListener("keydown", (e) => {
     document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[currentIndex].innerText = e.key;
 
     if (currentIndex != 4) currentIndex++;
+
+    animateCSS(document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[currentIndex - 1], "bounceIn")
 })
 
 const animateCSS = (element, animation, prefix = "animate__") =>
-    // We create a Promise and return it
     new Promise((resolve, reject) => {
         const animationName = `${prefix}${animation}`;
-        // const node = document.querySelector(element);
         const node = element;
 
         node.classList.add(`${prefix}animated`, animationName);
+        console.log(animationName)
 
-        // When the animation ends, we clean the classes and resolve the Promise
         function handleAnimationEnd(event) {
             event.stopPropagation();
             node.classList.remove(`${prefix}animated`, animationName);
