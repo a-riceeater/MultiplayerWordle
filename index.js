@@ -65,7 +65,7 @@ io.on("connection", (socket) => {
         if (!word) return;
         if (word.length != 5) return;
         const gws = gameWords.get(rooms.get(data.user))
-        console.log(gws[0])
+        console.log(word == gws[0])
         if (words.includes(word)) {
             if (word == gws[0]) socket.emit("correctWord", { word: word });
             else {
