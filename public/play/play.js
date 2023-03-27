@@ -176,9 +176,15 @@ document.addEventListener("keydown", (e) => {
 
     document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[currentIndex].innerText = e.key;
 
-    if (currentIndex != 4) currentIndex++;
 
-    animateCSS(document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[currentIndex - 1], "bounceIn")
+    if (currentIndex == 4) document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[4].animateCSS("bounceIn");
+    else if (currentIndex == 3) document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[3].animateCSS("bounceIn");
+    else if (currentIndex == 2) document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[2].animateCSS("bounceIn");
+    else if (currentIndex == 1) document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[1].animateCSS("bounceIn");
+    else if (currentIndex == 0) document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[0].animateCSS("bounceIn");
+    // animateCSS(document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[currentIndex - 1], "bounceIn")
+    
+    if (currentIndex != 4) currentIndex++;
 })
 
 const animateCSS = (element, animation, prefix = "animate__") =>
@@ -197,3 +203,7 @@ const animateCSS = (element, animation, prefix = "animate__") =>
 
         node.addEventListener("animationend", handleAnimationEnd, { once: true });
     });
+
+Object.prototype.animateCSS = function (animation, prefix = "animate__") {
+    return animateCSS(this, animation);
+}
