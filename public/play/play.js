@@ -21,7 +21,7 @@ socket.emit("joinGame", { user: "guest", room: room })
 socket.on("gameJoined", (data) => {
     setTimeout(() => {
         document.getElementById("pc-status").innerText = "Connected..."
-        if (!started) data.started ? document.getElementById("cs-dots-title").innerText = "Game starting" : document.getElementById("cs-dots-title").innerText = "Waiting for players..."
+        setTimeout(() => document.getElementById("pc-status").style.opacity = 0, 500)
     }, 500);
 })
 
@@ -67,7 +67,7 @@ socket.on("correctWord", (data) => {
         if (i == 4) {
             clearInterval(inter);
             currentIndex = 0;
-            currentRow++;
+            currentRow = 1;
             return;
         }
 
