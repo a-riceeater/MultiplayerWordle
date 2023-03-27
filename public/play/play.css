@@ -43,6 +43,7 @@ hr {
     font-weight: 600;
     --animate-duration: 0.8s;
     text-transform: uppercase;
+    vertical-align: middle;
 }
 
 br {
@@ -69,3 +70,4 @@ br {
 #keyboard {
     margin-top: 50px;
 }
+
