@@ -15,7 +15,7 @@ const csDotsI = setInterval(() => {
     document.getElementById("cs-dots").innerText = csDots;
 }, 500)
 
-socket.emit("joinGame", { name: "guest", room: room })
+socket.emit("joinGame", { user: "guest", room: room })
 
 socket.on("gameJoined", (data) => {
     setTimeout(() => data.started ? document.getElementById("cs-dots-title").innerText = "Game starting" : document.getElementById("cs-dots-title").innerText = "Waiting for players...", 500);

@@ -1,4 +1,4 @@
-export const WORDS = [
+module.exports = { words: [
     'which',
     'there',
     'their',
@@ -5757,3 +5757,4 @@ export const WORDS = [
     'biffy',
     'pupal',
   ]
+}

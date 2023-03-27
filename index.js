@@ -28,13 +28,36 @@ app.get("/play/:game", (req, res) => {
 })
 
 const rooms = new Map();
+const roomPlayers = new Map();
+const gameWords = new Map();
+
+const words = require("./words").words;
+
 io.on("connection", (socket) => {
     // Socket.io connection established
     socket.on("joinGame", (data) => {
         if (io.sockets.adapter.rooms.get(data.room) && io.sockets.adapter.rooms.get(data.room).size == 5) return;
         socket.join(data.room);
         rooms.set(data.user, data.room)
+        console.log(data.user)
+        if (!roomPlayers.get(data.room)) roomPlayers.set(data.room, [])
+        roomPlayers.set(data.room, roomPlayers.get(data.room).push(data.user));
         socket.emit("gameJoined", { started: io.sockets.adapter.rooms.get(data.room).size == 1 ? true : false })
+        if (io.sockets.adapter.rooms.get(data.room).size == 1) { 
+            const gws = [];
+
+            for (let i = 0; i < 5; i++) {
+                let word = words[Math.floor(Math.random() * words.length)];
+                gws.push(word);
+
+                if (i == 4) {
+                    gameWords.set(data.room, gws);
+                    console.log(gameWords.get(data.room))
+                }
+            }
+
+            io.to(data.room).emit("startGame", { players: roomPlayers.get(data.room) }) 
+        }
     })
 
 })
