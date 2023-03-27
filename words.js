@@ -1,4 +1,5 @@
-module.exports = { words: [
+module.exports = {
+  words: [
     'which',
     'there',
     'their',

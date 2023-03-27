@@ -13,7 +13,7 @@ app.use(express.json());
 app.set("socketio", io);
 app.use(express.static("public"))
 
-const rp = (p) => { return path.join(__dirname, "html/" + p )} // one liner lol
+const rp = (p) => { return path.join(__dirname, "html/" + p) } // one liner lol
 
 app.get("/", (req, res) => {
     res.send("Hello, world!");
@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
         if (!roomPlayers.get(data.room)) roomPlayers.set(data.room, [])
         // roomPlayers.set(data.room, eval(roomPlayers.get(data.room)).push(data.user));
         socket.emit("gameJoined", { started: io.sockets.adapter.rooms.get(data.room).size == 1 ? true : false })
-        if (io.sockets.adapter.rooms.get(data.room).size == 1) { 
+        if (io.sockets.adapter.rooms.get(data.room).size == 1) {
             const gws = [];
 
             for (let i = 0; i < 5; i++) {
@@ -51,12 +51,41 @@ io.on("connection", (socket) => {
                 gws.push(word);
 
                 if (i == 4) {
+                    console.log(gws)
                     gameWords.set(data.room, gws);
-                    console.log(gameWords.get(data.room))
                 }
             }
 
-            io.to(data.room).emit("startGame", { players: roomPlayers.get(data.room) }) 
+            io.to(data.room).emit("startGame", { players: roomPlayers.get(data.room) })
+        }
+    })
+
+    socket.on("verifyWord", (data) => {
+        const word = data.word.toLowerCase();
+        if (!word) return;
+        if (word.length != 5) return;
+        const gws = gameWords.get(rooms.get(data.user))
+        console.log(gws[0])
+        if (words.includes(word)) {
+            if (word == gws[0]) socket.emit("correctWord", { word: word });
+            else {
+                // 0 wrong, 1: wrong pos, 2: correct
+                const curWord = gws[0]
+                let result = '';
+                for (let i = 0; i < word.length; i++) {
+                    if (word[i] == curWord[i]) result += '2'
+                    else {
+                        if (curWord.includes(word[i])) result += '1'
+                        else result += '0'
+                    }
+
+                    if (i == word.length - 1) {
+                        socket.emit("wordStatus", { result: result })
+                    }
+                }
+            }
+        } else {
+            socket.emit("wordNotExist", { word: word })
         }
     })
 

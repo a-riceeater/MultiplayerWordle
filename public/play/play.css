@@ -12,6 +12,16 @@ body {
     border: 2px solid rgb(127, 219, 255) !important;
 }
 
+.status-wrong {
+    background-color: gray;
+    border: 2px solid gray !important;
+}
+
+.status-wrongSpot {
+    background-color: rgb(255, 255, 0, 0.8);
+    border: 2px solid rgb(255, 255, 0, 0.7) !important;
+}
+
 #container {
     width: 100%;
     text-align: center;
@@ -85,4 +95,18 @@ br {
     font-family: 'Poppins', serif;
     font-weight: 600;
     text-align: center;
+}
+
+.toast {
+    position: fixed;
+    z-index: 999;
+    right: 1%;
+    top: 1%;
+    border-radius: 5px;
+    width: 250px;
+    height: 50px;
+}
+
+.toast-invalid {
+    background-color: red;
 }
