@@ -16,7 +16,7 @@ app.use(express.static("public"))
 const rp = (p) => { return path.join(__dirname, "html/" + p) } // one liner lol
 
 app.get("/", (req, res) => {
-    res.send("Hello, world!");
+    res.send("This page is still in production. Please check back later.<br><a href='/play/someRandomGameIdThatYouCanTestWith'>Play</a>");
 })
 
 app.get("/play", (req, res) => {
@@ -92,8 +92,8 @@ io.on("connection", (socket) => {
 })
 
 const port = process.env.port;
-server.listen(port, () => {
+server.listen(1024, () => {
     console.log("\x1b[33mServer Running!")
     console.log("\x1b[31mThis is a development server, do not use this for hosting!\n")
-    console.log(`\x1b[0mRunning on:\nhttp://localhost:${port}`)
+    console.log(`\x1b[0mRunning on:\nhttp://localhost:${1024}`)
 })

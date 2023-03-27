@@ -110,3 +110,29 @@ br {
 .toast-invalid {
     background-color: red;
 }
+
+@media only screen and (min-width: 1025px) {
+    .tile {
+        height: 40px;
+        width: 40px;
+        max-height: 1000px;
+        font-size: 30px;
+    }
+
+    .keyboard-button {
+        height: 35px;
+        width: 35px;
+    }
+
+    #keyboard {
+        margin-top: 3%;
+    }
+
+    #playContainer {
+        margin-top: 1%;
+    }
+}
+
+#pc-status {
+    transition: 0.5s;
+}
