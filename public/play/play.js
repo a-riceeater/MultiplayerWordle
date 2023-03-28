@@ -19,9 +19,11 @@ const csDotsI = setInterval(() => {
 socket.emit("joinGame", { user: "guest", room: room })
 
 socket.on("gameJoined", (data) => {
+    console.log(data.started)
     setTimeout(() => {
         document.getElementById("pc-status").innerText = "Connected..."
-        setTimeout(() => document.getElementById("pc-status").style.opacity = 0, 500)
+        if (!data.started) document.getElementById("pc-status").innerText += " Waiting for player..."
+        setTimeout(() => document.getElementById("pc-status").style.opacity = 0, data.started ? 500 : 2000)
     }, 500);
 })
 
@@ -37,10 +39,13 @@ socket.on("startGame", (data) => {
 
 socket.on("invalidWord", (data) => {
     var i = 0;
+    var row = currentRow;
+    currentIndex = 0;
+
 
     const inter = setInterval(() => {
         console.log(i)
-        const tile = document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[i]
+        const tile = document.querySelector(`#row${row}`).getElementsByClassName("tile")[i]
         tile.classList.add("status-wrong");
         animateCSS(tile, "flipInX");
 
@@ -57,10 +62,12 @@ socket.on("invalidWord", (data) => {
 
 socket.on("correctWord", (data) => {
     var i = 0;
-
+    var row = currentRow;
+    currentIndex = 0;
+    
     const inter = setInterval(() => {
         console.log(i)
-        const tile = document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[i]
+        const tile = document.querySelector(`#row${row}`).getElementsByClassName("tile")[i]
         tile.classList.add("status-correct");
         animateCSS(tile, "flipInX");
 
@@ -68,6 +75,8 @@ socket.on("correctWord", (data) => {
             clearInterval(inter);
             currentIndex = 0;
             currentRow = 1;
+            const winAmt = document.getElementById("yousolvedamt");
+            winAmt.innerText = (parseInt(winAmt.innerText) + 1) + "/5"
             return;
         }
 
@@ -86,9 +95,12 @@ socket.on("wordStatus", (data) => {
     console.log(data.result)
 
     var i = 0;
+    var row = currentRow;
+    currentRow++;
+    currentIndex = 0;
 
     const inter = setInterval(() => {
-        const tile = document.querySelector(`#row${currentRow}`).getElementsByClassName("tile")[i]
+        const tile = document.querySelector(`#row${row}`).getElementsByClassName("tile")[i]; 
         const status = data.result[i]
 
         if (status == "0") tile.classList.add("status-wrong");
@@ -99,8 +111,6 @@ socket.on("wordStatus", (data) => {
 
         if (i == 4) {
             clearInterval(inter);
-            currentIndex = 0;
-            currentRow++;
             return;
         }
 

@@ -37,13 +37,13 @@ const words = require("./words").words;
 io.on("connection", (socket) => {
     // Socket.io connection established
     socket.on("joinGame", (data) => {
-        if (io.sockets.adapter.rooms.get(data.room) && io.sockets.adapter.rooms.get(data.room).size == 5) return;
+        if (io.sockets.adapter.rooms.get(data.room) && io.sockets.adapter.rooms.get(data.room).size == 2) return;
         socket.join(data.room);
         rooms.set(data.user, data.room)
         console.log(data.user)
         if (!roomPlayers.get(data.room)) roomPlayers.set(data.room, [])
         // roomPlayers.set(data.room, eval(roomPlayers.get(data.room)).push(data.user));
-        socket.emit("gameJoined", { started: io.sockets.adapter.rooms.get(data.room).size == 1 ? true : false })
+        socket.emit("gameJoined", { started: io.sockets.adapter.rooms.get(data.room).size == 2 ? true : false })
         if (io.sockets.adapter.rooms.get(data.room).size == 1) {
             const gws = [];
 

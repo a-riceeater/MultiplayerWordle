@@ -5757,5 +5757,9 @@ module.exports = {
     'rumba',
     'biffy',
     'pupal',
+    'faver',
+    'slimy',
+    'podge',
+    'brunt'
   ]
 }
